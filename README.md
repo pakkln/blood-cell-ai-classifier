@@ -1,7 +1,7 @@
-##Blood cell classification image
+#Blood Cell Image Classification
 
-This project use machine learning to classify 8 types of white blood cell pictures. The architecture includes CNN(Convolution Neural Network) to train the machine.
+This project uses machine learning to classify blood cell images into eight catagories using the BloodMNIST dataset. It uses a Convolutional Neural Network (CNN) to learn image features and classify different types of blood cells.
 
-The projects includes model training, evaluation and testing, checkpoint saving, and reusable inference code.
+The projects includes model training, validation, testing, checkpoint saving, and reusable inference code.
 
-The results shows that the trained mode's best accuracy was 89.48%.
+The trained model achieved 89.48% accuracy on the officaial dataset.
