@@ -47,6 +47,26 @@ Checkpoint SHA256: `8884f42fa148ab57a5ed9d11c15cbf6998c1394171048708041d737211a7
 
 ## Phase 2: Data Engineering
 
-Next milestone: Design a reproducible BloodMNIST ingestion pipeline using the existing repository and trained classifier.
+### M1 — Task 1: Raw Dataset Ingestion
+
+Status: Completed — October 26, 2026
+
+**Implemented**
+- Created `scripts/ingest_raw.py`.
+- Downloaded official BloodMNIST data from Zenodo.
+- Stored the original dataset in `data/raw/bloodmnist.npz`.
+- Implemented checksum verification using MD5.
+- Implemented temporary-file download and cleanup on failure.
+- Added existing-file detection to avoid unnecessary downloads.
+- Confirmed that the raw dataset is excluded from Git.
+
+**Verified**
+- Initial download completed successfully.
+- Second execution returned `Already downloaded`.
+- Local dataset MD5 matched the expected checksum.
+- Source code review passed.
+- Failure-handling branches have been reviewed but not independently tested.
+
+**Next task:** M1 — Task 2: Inspect the raw BloodMNIST dataset structure and establish its schema.
 
 Planned components: data validation, Parquet, DuckDB, ETL, batch inference, testing, and CI.
