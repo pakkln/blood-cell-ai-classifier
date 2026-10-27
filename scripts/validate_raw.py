@@ -44,6 +44,9 @@ def validate_raw(path: Path):
             
             if np.any((labels < 0) | (labels > 7)):
                 raise ValueError(f"{split}: invalid class id detected")
+            
+            if images.shape[0]==0:
+                raise ValueError(f"{split}: is empty")
 
         print("Array validation passed")
 
