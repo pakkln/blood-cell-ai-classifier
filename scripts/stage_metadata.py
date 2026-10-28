@@ -2,7 +2,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-from validate_raw import validate_raw
+from scripts.validate_raw import validate_raw
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW_PATH = ROOT / "data/raw/bloodmnist.npz"
@@ -41,22 +41,19 @@ if __name__ == ("__main__"):
     df = build_metadata(RAW_PATH)
     STAGED_PATH.parent.mkdir(parents=True,exist_ok = True)
 
-    df.to_parquet(
-        temp_path,
-        engine = "pyarrow",
-        index = False
-    )
+    try:
+        df.to_parquet(temp_path, engine="pyarrow",index=False)
 
-    saved_df = pd.read_parquet(temp_path)
+        saved_df = pd.read_parquet(temp_path)
 
-    assert len(saved_df) == len(df)
-    assert saved_df.columns.to_list() == df.columns.tolist()
-    assert saved_df["image_id"].is_unique
-    assert saved_df.equals(df)
+        assert len(saved_df) == len(df)
+        assert saved_df.columns.tolist() == df.columns.tolist()
+        assert saved_df["image_id"].is_unique
+        assert saved_df.equals(df)
 
-    temp_path.replace(STAGED_PATH)
-
-    print("PASS: Parquet integrity verified")
+        temp_path.replace(STAGED_PATH)
+    finally:
+        temp_path.unlink(missing_ok=True)
 
     print("Saved rows:", len(saved_df))
     print("Schema:", saved_df.dtypes)
