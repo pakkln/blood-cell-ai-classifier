@@ -96,7 +96,25 @@ Checkpoint SHA256: `8884f42fa148ab57a5ed9d11c15cbf6998c1394171048708041d737211a7
 - Automated pytest tests and GitHub Actions CI are not yet configured.
 - Concurrent staging processes are not supported.
 
-**Next milestone:** Introduce pytest and automate the existing data-quality tests before extending the pipeline.
+### Phase 2 — Day 4 (October 29, 2026)
+
+**Status:** Automated testing implemented locally; GitHub Actions verification pending.
+
+**Completed:**
+- Installed pytest 9.2.0.
+- Converted four existing regression tests into pytest-discoverable functions.
+- Verified all four tests pass locally.
+- Created `requirements-de.txt` to separate Data Engineering dependencies from Phase 1 ML dependencies.
+- Created `.github/workflows/tests.yml`.
+- Configured CI to check out the repository, install dependencies, ingest BloodMNIST, generate Parquet, and run pytest.
+- Selected Python 3.12 for CI.
+
+**Known limitations:**
+- GitHub Actions execution has not yet been verified.
+- Cleanup testing simulates failure rather than injecting failure into the actual staging function.
+- Some tests depend on generating the official BloodMNIST dataset first.
+
+**Next task:** Commit and push Day 4 changes, then verify the GitHub Actions workflow succeeds.
 
 
 Planned components: data validation, Parquet, DuckDB, ETL, batch inference, testing, and CI.

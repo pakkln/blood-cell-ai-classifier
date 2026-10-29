@@ -1,0 +1,30 @@
+name: Data Engineering Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements-de.txt
+
+      - name: Ingest Bloodmnist
+        run: python -m scripts.ingest_raw
+
+      - name: Generate parquet
+        run: python -m scripts.stage_metadata
+
+      - name: Run tests
+        run: python -m pytest -v

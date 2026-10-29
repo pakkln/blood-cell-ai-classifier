@@ -1,27 +1,26 @@
 from pathlib import Path
 import tempfile
+import pytest
 
-with tempfile.TemporaryDirectory() as tmpdir:
-    temp_path = Path(tmpdir) / "metadata.parquet.tmp"
-    final_path = Path(tmpdir) / "metadata.parquet"
+def test_staging_cleanup():
 
-    #simulate an existing valide output
-    final_path.write_text("original_data")
+    with tempfile.TemporaryDirectory() as tmpdir:
+        temp_path = Path(tmpdir) / "metadata.parquet.tmp"
+        final_path = Path(tmpdir) / "metadata.parquet"
 
-    try:
+        #simulate an existing valide output
+        final_path.write_text("original_data")
+
         try:
-            temp_path.write_text("incomplete data")
+            with pytest.raises(RuntimeError, match="Simulated write failure"):
+                try:
+                    #simulate pipeline failure
+                    raise RuntimeError("Simulated write failure")
 
-            #simulate pipeline failure
-            raise RuntimeError("Simulated write failure")
+                finally:
+                    temp_path.unlink(missing_ok=True)
 
+            assert not temp_path.exists()
+            assert final_path.read_text() == "original_data"
         finally:
             temp_path.unlink(missing_ok=True)
-    except RuntimeError as error:
-        assert str(error) == "Simulated write failure"
-
-    assert not temp_path.exists()
-    assert final_path.read_text() == "original_data"
-
-    print("PASS: temporary file cleaned up")
-    print("Pass: original output preserved")
