@@ -114,7 +114,23 @@ Checkpoint SHA256: `8884f42fa148ab57a5ed9d11c15cbf6998c1394171048708041d737211a7
 - Cleanup testing simulates failure rather than injecting failure into the actual staging function.
 - Some tests depend on generating the official BloodMNIST dataset first.
 
-**Next task:** Commit and push Day 4 changes, then verify the GitHub Actions workflow succeeds.
+### Data Engineering — Test verification (2026-10-30)
+
+**Verified completed**
+- All 4 discovered pytest tests passed.
+- Duplicate metadata rejection passed.
+- Empty validation split rejection passed.
+- Invalid class ID rejection passed.
+- Staging cleanup test passed.
+- `python -m pip check` reported no broken requirements.
+- Python environment: `.venv`, Python 3.12.6.
+
+**Issue identified**
+- `requirements.txt` contains conflicting NumPy pins (`2.1.3` and `2.5.4`).
+- Correct the dependency file and verify installation and tests again.
+
+**Next task**
+- Implement and test an end-to-end integration test covering raw validation, metadata staging, Parquet validation, and DuckDB queries.
 
 
 Planned components: data validation, Parquet, DuckDB, ETL, batch inference, testing, and CI.
